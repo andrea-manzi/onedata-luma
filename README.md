@@ -1,4 +1,6 @@
-# Template for EGI repositories.
+# onedata-luma
+
+This repository contains the source code to configure the JSON file for the Onedata Local User MApping (LUMA).
 
 It includes:
 
