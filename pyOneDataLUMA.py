@@ -10,8 +10,8 @@ __date__      = "$Date: 31/05/2020 10:48:27"
 __copyright__ = "Copyright (c) 2020 EGI Foundation"
 __license__   = "Apache Licence v2.0"
 
-username="admin"
-password="egi4P@NOSC_wp&"
+username="**"
+password="**"
 url="onezone-panosc.egi.eu"
 
 def get_details(username, password, endpoint):
