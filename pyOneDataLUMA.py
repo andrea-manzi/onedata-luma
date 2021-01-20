@@ -10,9 +10,9 @@ __date__      = "$Date: 31/05/2020 10:48:27"
 __copyright__ = "Copyright (c) 2020 EGI Foundation"
 __license__   = "Apache Licence v2.0"
 
-username="***************"
-password="***************"
-url="YOUR OneZone hostname (without https://)"
+username="admin"
+password="egi4P@NOSC_wp&"
+url="onezone-panosc.egi.eu"
 
 def get_details(username, password, endpoint):
     ''' Method to do REST calls '''
@@ -39,7 +39,6 @@ def main():
     print("\n[.] Listing of available Storage Spaces in OneData: ")
     endpoint = "https://%s/api/v3/onezone/user/spaces" %url
     spaces_data = get_details(username, password, endpoint)
-
     for index in range(0, len(spaces_data['spaces'])):
         spaceID = (spaces_data['spaces'][index])
         endpoint = "https://%s/api/v3/onezone/user/spaces/%s" %(url, spaceID)
@@ -147,30 +146,45 @@ def main():
         #  }
         #}
 
+        #dictionary = {
+        #  index+1: {
+        #    "userDetails": {
+        #       "username": details['username'],
+        #       "id": details['linkedAccounts'][size-1]['subjectId'],
+        #       "name": details['name'],
+        #       "login": details['login'],
+        #       #"linkedAccounts": details['linkedAccounts'],
+        #       "linkedAccounts": '',
+        #       "fullname": details['fullName'],
+        #       "emails": details['emails'],
+        #       "emailList": details['emailList'],
+        #       "basicAuthEnabled": details['basicAuthEnabled'],
+        #       "alias": details['alias']
+        #    },
+        #    "credentials": [{
+        #       "storageId": storageId,
+        #       "storageName": storageName,
+        #       "type": "posix",
+        #       "uid": uid,
+        #       "guid": guid
+        #    }]
+        #  }
+        #}
+
         dictionary = {
-          index+1: {
-            "userDetails": {
-               "username": details['username'],
-               "id": details['linkedAccounts'][size-1]['subjectId'],
-               "name": details['name'],
-               "login": details['login'],
-               #"linkedAccounts": details['linkedAccounts'],
-               "linkedAccounts": '',
-               "fullname": details['fullName'],
-               "emails": details['emails'],
-               "emailList": details['emailList'],
-               "basicAuthEnabled": details['basicAuthEnabled'],
-               "alias": details['alias']
-            },
-            "credentials": [{
-               "storageId": storageId,
-               "storageName": storageName,
-               "type": "posix",
-               "uid": uid,
-               "guid": guid
-            }]
-          }
+                "onedataUser": {
+                    "mappingScheme": "idpUser",
+                    "idp": "eduTEAMS",  #replace with IdP identifier as configured in auth.config (Onezone)
+                    "subjectId":  details['linkedAccounts'][size-1]['subjectId'],
+                },
+                "storageUser": {
+                    "storageCredentials": {
+                        "uid": uid, #replace with actual user UID on storage
+                        "type": "posix"
+                     }
+                }
         }
+
        
         users.append(dictionary)
     #print (json.dumps(users, indent=3, sort_keys=False))
